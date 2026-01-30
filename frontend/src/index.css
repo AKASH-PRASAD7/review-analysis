@@ -1,20 +1,30 @@
 :root {
-  --bg-primary: #0f172a;
-  --bg-secondary: #1e293b;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --accent: #3b82f6;
-  --accent-hover: #2563eb;
+  --bg-primary: #f8f9fa;
+  --bg-card: #ffffff;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
   
-  --topic-billing: #ef4444;
-  --topic-performance: #f59e0b;
-  --topic-support: #10b981;
-  --topic-ux: #8b5cf6;
-  --topic-account: #ec4899;
-  --topic-other: #64748b;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  
+  --topic-billing: #f59e0b;     /* Yellow/Orange */
+  --topic-performance: #ef4444; /* Red */
+  --topic-support: #10b981;     /* Green */
+  --topic-ux: #8b5cf6;          /* Purple */
+  --topic-account: #ec4899;     /* Pink */
+  --topic-other: #6b7280;       /* Gray */
+  
+  /* Light theme shadings for backgrounds */
+  --bg-billing: #fffbeb;
+  --bg-performance: #fef2f2;
+  --bg-support: #ecfdf5;
+  --bg-ux: #f5f3ff;
+  --bg-account: #fdf2f8;
+  --bg-other: #f3f4f6;
 
-  --radius: 12px;
-  --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --radius: 8px;
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 body {
@@ -27,20 +37,14 @@ body {
 }
 
 #root {
-  max-width: 800px;
+  max-width: 700px;
   margin: 0 auto;
   padding: 2rem;
   min-height: 100vh;
 }
 
 h1 {
-  font-size: 2.5rem;
-  font-weight: 800;
-  text-align: center;
-  background: linear-gradient(to right, #60a5fa, #a855f7);
-  -webkit-background-clip: text;
-  color: transparent;
-  margin-bottom: 2rem;
+  display: none; /* Mockup doesn't show a giant H1, specific card headers used instead */
 }
 
 .container {
@@ -49,51 +53,68 @@ h1 {
   gap: 2rem;
 }
 
-/* Input Section */
-.input-card {
-  background: var(--bg-secondary);
-  padding: 1.5rem;
+/* Common Card Styles */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
 }
 
+.card-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--text-primary);
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+/* Input Section */
 textarea {
   width: 100%;
-  height: 150px;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  height: 120px;
+  background: #f3f4f6;
+  border: 1px solid transparent;
+  border-radius: 6px;
   padding: 1rem;
   color: var(--text-primary);
   font-size: 1rem;
-  resize: vertical;
-  transition: border-color 0.2s;
-  box-sizing: border-box; /* Important for width: 100% */
+  resize: none;
+  font-family: inherit;
 }
 
 textarea:focus {
   outline: none;
-  border-color: var(--accent);
+  background: #ffffff;
+  border-color: var(--border-color);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
 }
 
 button {
-  margin-top: 1rem;
   background: var(--accent);
   color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+  padding: 0.625rem 2.5rem;
+  border-radius: 6px;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
-  width: 100%;
+  transition: background-color 0.2s;
 }
 
 button:hover:not(:disabled) {
   background: var(--accent-hover);
-  transform: translateY(-1px);
 }
 
 button:disabled {
@@ -102,81 +123,125 @@ button:disabled {
 }
 
 /* Result Section */
-.result-container {
+.result-list {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
 .sentence-block {
-  padding: 1rem;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.03);
-  border-left: 4px solid transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-  animation: fadeIn 0.3s ease-out;
+  flex-direction: column;
 }
 
-.sentence-text {
-  flex: 1;
+.topic-header {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  width: fit-content;
+  border-radius: 0 0 6px 0; /* Or standard - mockup shows badge look */
+}
+
+/* Mockup Style: Top header bar colored by topic, or contained badge? 
+   Looking at image: The badge is inside the box, likely top left. 
+   Actually, the mockup shows a colored header strip OR the badge is the background of the top part.
+   " [Performance] " -> Colored background badge.
+   Let's recreate exact mockup: 
+   Box background is white/light tint. 
+   Badge is separate block at top.
+*/
+
+.sentence-block {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  /* Left accent border not in mockup but looks nice, remove if strict */
+  /* Mockup has colored header background for the whole row? No, distinct blocks. */
+}
+
+.topic-badge-container {
+  padding: 0.5rem 0.75rem 0;
 }
 
 .topic-badge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  padding: 0.25rem 0.5rem;
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
   border-radius: 4px;
-  white-space: nowrap;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: white; /* Only if dark badge */
 }
 
-/* Topic Variations */
-.topic-billing {
-  border-left-color: var(--topic-billing);
-  background: linear-gradient(90deg, rgba(239, 68, 68, 0.1), transparent);
-}
-.topic-billing .topic-badge { color: var(--topic-billing); background: rgba(239, 68, 68, 0.1); }
-
-.topic-performance {
-  border-left-color: var(--topic-performance);
-  background: linear-gradient(90deg, rgba(245, 158, 11, 0.1), transparent);
-}
-.topic-performance .topic-badge { color: var(--topic-performance); background: rgba(245, 158, 11, 0.1); }
-
-.topic-support {
-  border-left-color: var(--topic-support);
-  background: linear-gradient(90deg, rgba(16, 185, 129, 0.1), transparent);
-}
-.topic-support .topic-badge { color: var(--topic-support); background: rgba(16, 185, 129, 0.1); }
-
-.topic-ux {
-  border-left-color: var(--topic-ux);
-  background: linear-gradient(90deg, rgba(139, 92, 246, 0.1), transparent);
-}
-.topic-ux .topic-badge { color: var(--topic-ux); background: rgba(139, 92, 246, 0.1); }
-
-.topic-account {
-  border-left-color: var(--topic-account);
-  background: linear-gradient(90deg, rgba(236, 72, 153, 0.1), transparent);
-}
-.topic-account .topic-badge { color: var(--topic-account); background: rgba(236, 72, 153, 0.1); }
-
-.topic-other {
-  border-left-color: var(--topic-other);
-  background: linear-gradient(90deg, rgba(148, 163, 184, 0.1), transparent);
-}
-.topic-other .topic-badge { color: var(--topic-other); background: rgba(148, 163, 184, 0.1); }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
+.sentence-text {
+  padding: 0.75rem;
+  font-size: 1rem;
+  color: var(--text-primary);
 }
 
-.loading-spinner {
+/* Topic specific styles matching mockup */
+/* Billing: Yellow header/bg */
+/* Performance: Red header/bg */
+/* Other: Gray header/bg */
+
+.block-performance {
+  background-color: #fff1f2; /* Very light red */
+  border-color: #fecdd3;
+}
+.block-performance .topic-badge {
+  background-color: #e11d48;
+  color: white;
+}
+
+.block-billing {
+  background-color: #fffbeb; /* Very light yellow */
+  border-color: #fde68a;
+}
+.block-billing .topic-badge {
+  background-color: #d97706; /* Darker yellow/orange for text readability */
+  color: white;
+}
+
+.block-support {
+  background-color: #ecfdf5;
+  border-color: #a7f3d0;
+}
+.block-support .topic-badge {
+  background-color: #059669;
+  color: white;
+}
+
+.block-ux {
+  background-color: #f5f3ff;
+  border-color: #ddd6fe;
+}
+.block-ux .topic-badge {
+  background-color: #7c3aed;
+  color: white;
+}
+
+.block-account {
+  background-color: #fdf2f8;
+  border-color: #fbcfe8;
+}
+.block-account .topic-badge {
+  background-color: #db2777;
+  color: white;
+}
+
+.block-other {
+  background-color: #f8fafc;
+  border-color: #e2e8f0;
+}
+.block-other .topic-badge {
+  background-color: #64748b;
+  color: white;
+}
+
+.error-msg {
+  color: var(--topic-performance);
   text-align: center;
-  color: var(--text-secondary);
-  padding: 2rem;
+  margin-top: 1rem;
 }

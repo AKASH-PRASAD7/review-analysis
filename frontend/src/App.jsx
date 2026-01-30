@@ -2,9 +2,6 @@ import { useState } from 'react';
 import ReviewInput from './components/ReviewInput';
 import AnalysisResult from './components/AnalysisResult';
 
-// In a real app, use env var.
-// Default to standard local FastAPI port if not set.
-// User must ensure backend is running.
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 function App() {
@@ -45,31 +42,43 @@ function App() {
 
   return (
     <div className="container">
-      <h1>Review Insight</h1>
-      
-      <div className="input-card">
-        <ReviewInput 
-          value={inputText} 
-          onChange={setInputText} 
-          onAnalyze={handleAnalyze} 
-          loading={loading}
-        />
+      {/* Customer Review Card */}
+      <div className="card">
+        <div className="card-header">
+          Customer Review
+        </div>
+        <div className="card-body">
+          <ReviewInput 
+            value={inputText} 
+            onChange={setInputText} 
+            onAnalyze={handleAnalyze} 
+            loading={loading}
+          />
+        </div>
       </div>
 
       {error && (
-        <div style={{ color: 'var(--topic-billing)', textAlign: 'center', fontWeight: 'bold' }}>
+        <div className="error-msg">
           {error}
         </div>
       )}
 
-      {loading && (
-        <div className="loading-spinner">
-          Analyzing sentences using AI...
+      {/* Analysis Result Card */}
+      {(result || loading) && (
+        <div className="card">
+          <div className="card-header">
+            Analysis Result
+          </div>
+          <div className="card-body">
+            {loading ? (
+              <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
+                Analyzing...
+              </div>
+            ) : (
+              <AnalysisResult sentences={result.sentences} />
+            )}
+          </div>
         </div>
-      )}
-
-      {result && (
-        <AnalysisResult sentences={result.sentences} />
       )}
     </div>
   );

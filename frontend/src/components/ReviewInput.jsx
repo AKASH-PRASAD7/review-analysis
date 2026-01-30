@@ -6,12 +6,14 @@ const ReviewInput = ({ value, onChange, onAnalyze, loading }) => {
       <textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="Paste a customer review here (e.g. 'The app is great! But billing is confusing.')..."
+        placeholder="Paste customer review here..."
         disabled={loading}
       />
-      <button onClick={onAnalyze} disabled={loading || !value.trim()}>
-        {loading ? 'Analyzing...' : 'Analyze Review'}
-      </button>
+      <div className="button-container">
+        <button onClick={onAnalyze} disabled={loading || !value.trim()}>
+          {loading ? 'Analyzing...' : 'Analyze'}
+        </button>
+      </div>
     </>
   );
 };
