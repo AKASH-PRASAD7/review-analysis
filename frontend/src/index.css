@@ -1,0 +1,182 @@
+:root {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  
+  --topic-billing: #ef4444;
+  --topic-performance: #f59e0b;
+  --topic-support: #10b981;
+  --topic-ux: #8b5cf6;
+  --topic-account: #ec4899;
+  --topic-other: #64748b;
+
+  --radius: 12px;
+  --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  background: linear-gradient(to right, #60a5fa, #a855f7);
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 2rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Input Section */
+.input-card {
+  background: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+textarea {
+  width: 100%;
+  height: 150px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  color: var(--text-primary);
+  font-size: 1rem;
+  resize: vertical;
+  transition: border-color 0.2s;
+  box-sizing: border-box; /* Important for width: 100% */
+}
+
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+button {
+  margin-top: 1rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+button:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Result Section */
+.result-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sentence-block {
+  padding: 1rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 4px solid transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.sentence-text {
+  flex: 1;
+}
+
+.topic-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* Topic Variations */
+.topic-billing {
+  border-left-color: var(--topic-billing);
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.1), transparent);
+}
+.topic-billing .topic-badge { color: var(--topic-billing); background: rgba(239, 68, 68, 0.1); }
+
+.topic-performance {
+  border-left-color: var(--topic-performance);
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.1), transparent);
+}
+.topic-performance .topic-badge { color: var(--topic-performance); background: rgba(245, 158, 11, 0.1); }
+
+.topic-support {
+  border-left-color: var(--topic-support);
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.1), transparent);
+}
+.topic-support .topic-badge { color: var(--topic-support); background: rgba(16, 185, 129, 0.1); }
+
+.topic-ux {
+  border-left-color: var(--topic-ux);
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.1), transparent);
+}
+.topic-ux .topic-badge { color: var(--topic-ux); background: rgba(139, 92, 246, 0.1); }
+
+.topic-account {
+  border-left-color: var(--topic-account);
+  background: linear-gradient(90deg, rgba(236, 72, 153, 0.1), transparent);
+}
+.topic-account .topic-badge { color: var(--topic-account); background: rgba(236, 72, 153, 0.1); }
+
+.topic-other {
+  border-left-color: var(--topic-other);
+  background: linear-gradient(90deg, rgba(148, 163, 184, 0.1), transparent);
+}
+.topic-other .topic-badge { color: var(--topic-other); background: rgba(148, 163, 184, 0.1); }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.loading-spinner {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 2rem;
+}
