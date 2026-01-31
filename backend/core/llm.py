@@ -17,7 +17,11 @@ class LLMService:
         print(f"Loading model {self.model_name}...")
         try:
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
-            self.model = AutoModelForSeq2SeqLM.from_pretrained(self.model_name)
+            # Use strict float32 to avoid precision issues, but low_cpu_mem_usage to reduce loading spike
+            self.model = AutoModelForSeq2SeqLM.from_pretrained(
+                self.model_name, 
+                low_cpu_mem_usage=True
+            )
             print("Model loaded successfully.")
         except Exception as e:
             print(f"Error loading model: {e}")
