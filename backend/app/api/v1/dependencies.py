@@ -1,4 +1,5 @@
 from functools import lru_cache
+from fastapi import Depends
 from app.core.config import get_settings, Settings
 from app.services.llm_service import LLMService
 from app.services.review_analysis_service import ReviewAnalysisService
@@ -29,7 +30,7 @@ def get_llm_service() -> LLMService:
 
 
 def get_review_service(
-    llm_service: LLMService = None
+    llm_service: LLMService = Depends(get_llm_service)
 ) -> ReviewAnalysisService:
     """
     Dependency for getting review analysis service.
