@@ -18,7 +18,6 @@ For analyzing customer reviews using AI-powered topic classification. Built with
 - [Project Structure](#-project-structure)
 - [Getting Started](#-getting-started)
 - [API Documentation](#-api-documentation)
-- [Deployment](#-deployment)
 - [Development](#-development)
 - [Design Decisions](#-design-decisions)
 
@@ -352,70 +351,10 @@ Visit `http://localhost:8000/docs` for Swagger UI with:
 
 ---
 
-## 🌐 Deployment
-
-### Backend Deployment (Render/Railway)
-
-1. **Push to GitHub**
-   ```bash
-   git push origin main
-   ```
-
-2. **Create Web Service**
-   - Platform: Render.com or Railway.app
-   - Root Directory: `backend`
-
-3. **Build Command**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Start Command**
-   ```bash
-   uvicorn app.main:app --host 0.0.0.0 --port $PORT
-   ```
-
-5. **Environment Variables**
-   ```
-   MODEL_NAME=google/flan-t5-small
-   LOG_LEVEL=INFO
-   CORS_ORIGINS=https://your-frontend.netlify.app
-   ```
-
-### Frontend Deployment (Netlify/Vercel)
-
-1. **Create New Site**
-   - Platform: Netlify or Vercel
-   - Base Directory: `frontend`
-
-2. **Build Settings**
-   - Build Command: `npm run build`
-   - Publish Directory: `dist`
-
-3. **Environment Variables**
-   ```
-   VITE_API_URL=https://your-backend.onrender.com
-   ```
-
-4. **Deploy**
-   - Push to GitHub triggers auto-deploy
-   - Or use CLI: `netlify deploy --prod`
-
----
 
 ## 💻 Development
 
 ### Frontend Development
-
-#### Run Tests
-```bash
-npm run test
-```
-
-#### Type Check
-```bash
-npm run type-check
-```
 
 #### Build for Production
 ```bash
