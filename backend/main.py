@@ -30,8 +30,8 @@ class AnalyzeResponse(BaseModel):
 
 @app.on_event("startup")
 async def startup_event():
-    print("Starting up... Loading LLM model")
-    llm_service.load_model()
+    print("Starting up... Model will load lazily on first request")
+    # llm_service.load_model() # Removed to prevent OOM on startup
 
 # Simple in-memory cache
 analysis_cache = {}

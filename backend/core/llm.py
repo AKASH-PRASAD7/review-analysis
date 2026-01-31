@@ -11,21 +11,24 @@ class LLMService:
         self.model_name = "google/flan-t5-small"
 
     def load_model(self):
-        if self.model is not None:
-            return
+        # Lazy loading handled in analyze_sentence
+        pass
 
-        print(f"Loading model {self.model_name}...")
-        try:
-            self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
-            # Use strict float32 to avoid precision issues, but low_cpu_mem_usage to reduce loading spike
-            self.model = AutoModelForSeq2SeqLM.from_pretrained(
-                self.model_name, 
-                low_cpu_mem_usage=True
-            )
-            print("Model loaded successfully.")
-        except Exception as e:
-            print(f"Error loading model: {e}")
-            self.model = None
+    def _get_model_and_tokenizer(self):
+        if self.model is None or self.tokenizer is None:
+            print(f"Loading model {self.model_name}...")
+            try:
+                self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+                # Use low_cpu_mem_usage=True to help with OOM on Render
+                self.model = AutoModelForSeq2SeqLM.from_pretrained(
+                    self.model_name, 
+                    low_cpu_mem_usage=True
+                )
+                print("Model loaded successfully.")
+            except Exception as e:
+                print(f"Error loading model: {e}")
+                raise e
+        return self.model, self.tokenizer
 
     def analyze_sentence(self, text: str) -> str:
         # Fallback Keywords (Hybrid approach for reliability on small model)
@@ -39,7 +42,11 @@ class LLMService:
         if "login" in lower_text or "password" in lower_text or "sign in" in lower_text:
             return "Account"
         
-        if self.model is None:
+        try:
+            model, tokenizer = self._get_model_and_tokenizer()
+            if model is None:
+                return "Other"
+        except Exception:
             return "Other"
 
         # Few-shot Prompting for T5
