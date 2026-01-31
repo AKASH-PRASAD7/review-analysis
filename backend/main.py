@@ -33,10 +33,18 @@ async def startup_event():
     print("Starting up... Loading LLM model")
     llm_service.load_model()
 
+# Simple in-memory cache
+analysis_cache = {}
+
 @app.post("/analyze", response_model=AnalyzeResponse)
 async def analyze_review(request: AnalyzeRequest):
     if not request.text:
         raise HTTPException(status_code=400, detail="Text is required")
+
+    # Check cache
+    if request.text in analysis_cache:
+        print("Cache hit!")
+        return analysis_cache[request.text]
 
     # 1. Split sentences
     sentences = split_into_sentences(request.text)
@@ -51,7 +59,12 @@ async def analyze_review(request: AnalyzeRequest):
             topic=topic
         ))
 
-    return AnalyzeResponse(sentences=results)
+    response = AnalyzeResponse(sentences=results)
+    
+    # Store in cache
+    analysis_cache[request.text] = response
+    
+    return response
 
 @app.get("/health")
 def health_check():

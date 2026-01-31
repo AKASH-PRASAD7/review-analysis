@@ -2,6 +2,8 @@ import { Card, CardHeader, CardBody } from '@/components/layout/Card';
 import { Loader } from '@/components/common/Loader';
 import { ErrorMessage } from '@/components/common/ErrorMessage';
 import { SentenceList } from './SentenceList';
+import { TopicLegend } from './TopicLegend';
+import { TopicSummary } from './TopicSummary';
 import type { Sentence, ApiError } from '@/api/types';
 
 export interface AnalysisResultCardProps {
@@ -24,7 +26,12 @@ export function AnalysisResultCard({
 
   return (
     <Card>
-      <CardHeader>Analysis Result</CardHeader>
+      <CardHeader>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span>Analysis Result</span>
+          {!isLoading && sentences && <TopicLegend />}
+        </div>
+      </CardHeader>
       <CardBody>
         {isLoading && <Loader label="Analyzing..." />}
         
@@ -36,7 +43,10 @@ export function AnalysisResultCard({
         )}
         
         {!isLoading && !error && sentences && (
-          <SentenceList sentences={sentences} />
+          <>
+            <TopicSummary sentences={sentences} />
+            <SentenceList sentences={sentences} />
+          </>
         )}
       </CardBody>
     </Card>
