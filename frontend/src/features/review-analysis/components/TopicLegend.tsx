@@ -13,7 +13,7 @@ export function TopicLegend() {
   return (
     <div className="topic-legend" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', padding: '0.5rem 0' }}>
       {topics.map((topic) => (
-        <div key={topic.name} style={{ display: 'flex', items: 'center', gap: '0.25rem' }}>
+        <div key={topic.name} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
           <span
             style={{
               width: '12px',
