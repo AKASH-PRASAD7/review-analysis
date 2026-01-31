@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAnalyzeReview } from '@/api/queries';
+import { useReviewQuery } from '@/api/queries';
 import type { AnalyzeResponse, ApiError } from '@/api/types';
 
 export interface UseReviewAnalysisReturn {
@@ -27,21 +27,30 @@ export interface UseReviewAnalysisReturn {
  */
 export function useReviewAnalysis(): UseReviewAnalysisReturn {
   const [inputText, setInputText] = useState('');
-  const { mutate, isPending, error, data, reset: resetMutation } = useAnalyzeReview();
+  const [queryText, setQueryText] = useState('');
+
+  const { isLoading, isFetching, error, data, refetch } = useReviewQuery(queryText);
+
+  // Consider it pending if loading (first time) or fetching (refetching/background)
+  // BUT for UX we might only want to show big loader on initial load or manual trigger
+  const isPending = isLoading || (isFetching && !!queryText);
 
   const handleAnalyze = () => {
     if (!inputText.trim()) return;
-    mutate({ text: inputText });
+    setQueryText(inputText);
   };
 
   const reset = () => {
     setInputText('');
-    resetMutation();
+    setQueryText('');
   };
 
   // Derived state
   const isEmpty = inputText.trim().length === 0;
-  const canAnalyze = !isEmpty && !isPending;
+  
+  // Can analyze if input is not empty AND (we are not pending OR input is different from last query)
+  const canAnalyze = !isEmpty; 
+
   const hasResults = !!data?.sentences && data.sentences.length > 0;
 
   return {

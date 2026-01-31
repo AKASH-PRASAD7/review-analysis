@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { apiClient } from './client';
 import { API_ENDPOINTS } from './endpoints';
 import { queryKeys } from './queryKeys';
@@ -13,20 +13,16 @@ async function analyzeReview(request: AnalyzeRequest): Promise<AnalyzeResponse> 
 }
 
 /**
- * Hook for analyzing review text
+ * Hook for analyzing review text with caching
  * 
- * @example
- * const { mutate, isPending, error, data } = useAnalyzeReview();
- * mutate({ text: 'Great product!' });
+ * @param text - The text to analyze. Query is disabled if empty.
  */
-export function useAnalyzeReview(): UseMutationResult<
-  AnalyzeResponse,
-  ApiError,
-  AnalyzeRequest,
-  unknown
-> {
-  return useMutation({
-    mutationFn: analyzeReview,
-    mutationKey: queryKeys.reviews.all,
+export function useReviewQuery(text: string): UseQueryResult<AnalyzeResponse, ApiError> {
+  return useQuery({
+    queryKey: queryKeys.reviews.analyze(text),
+    queryFn: () => analyzeReview({ text }),
+    enabled: !!text.trim(),
+    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+    retry: false,
   });
 }
