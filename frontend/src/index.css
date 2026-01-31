@@ -1,27 +1,44 @@
 :root {
-  --bg-primary: #f8f9fa;
+  --bg-primary: #ffffff; /* Mockup seems to have white background main or very light gray, sticking to white/light */
   --bg-card: #ffffff;
-  --text-primary: #1f2937;
+  --text-primary: #111827;
   --text-secondary: #6b7280;
   --border-color: #e5e7eb;
   
   --accent: #2563eb;
   --accent-hover: #1d4ed8;
   
-  --topic-billing: #f59e0b;     /* Yellow/Orange */
-  --topic-performance: #ef4444; /* Red */
-  --topic-support: #10b981;     /* Green */
-  --topic-ux: #8b5cf6;          /* Purple */
-  --topic-account: #ec4899;     /* Pink */
-  --topic-other: #6b7280;       /* Gray */
+  /* Mockup Colors */
+  --topic-billing: #fbbf24;     /* Yellow/Orange text/badge-bg */
+  --topic-performance: #f87171; /* Red text/badge-bg */
+  --topic-support: #34d399;     /* Green */
+  --topic-ux: #a78bfa;          /* Purple */
+  --topic-account: #f472b6;     /* Pink */
+  --topic-other: #9ca3af;       /* Gray */
   
-  /* Light theme shadings for backgrounds */
+  /* Badge backgrounds (darker for white text) */
+  --badge-billing: #d97706;
+  --badge-performance: #ef4444; 
+  --badge-support: #059669;
+  --badge-ux: #7c3aed;
+  --badge-account: #db2777;
+  --badge-other: #4b5563;
+
+  /* Block backgrounds (light tints) */
   --bg-billing: #fffbeb;
   --bg-performance: #fef2f2;
   --bg-support: #ecfdf5;
   --bg-ux: #f5f3ff;
   --bg-account: #fdf2f8;
-  --bg-other: #f3f4f6;
+  --bg-other: #f9fafb;
+
+  /* Border colors for blocks */
+  --border-billing: #fde68a;
+  --border-performance: #fecaca;
+  --border-support: #a7f3d0;
+  --border-ux: #ddd6fe;
+  --border-account: #fbcfe8;
+  --border-other: #e5e7eb;
 
   --radius: 8px;
   --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
@@ -30,21 +47,21 @@
 body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: var(--bg-primary);
+  background-color: var(--bg-primary); /* Mockup might be white, if so this logic holds */
   color: var(--text-primary);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
 #root {
-  max-width: 700px;
+  max-width: 600px; /* Looks narrower in mockup */
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem 1rem;
   min-height: 100vh;
 }
 
 h1 {
-  display: none; /* Mockup doesn't show a giant H1, specific card headers used instead */
+  display: none;
 }
 
 .container {
@@ -58,16 +75,17 @@ h1 {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  /* box-shadow: var(--shadow); Mockup looks pretty flat actually, maybe just border */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
 
 .card-header {
   padding: 1rem 1.5rem;
   border-bottom: 1px solid var(--border-color);
-  font-weight: 700;
+  font-weight: 700; /* Bold title */
   font-size: 1.125rem;
-  color: var(--text-primary);
+  color: #374151; /* Dark gray */
 }
 
 .card-body {
@@ -77,22 +95,27 @@ h1 {
 /* Input Section */
 textarea {
   width: 100%;
-  height: 120px;
-  background: #f3f4f6;
-  border: 1px solid transparent;
+  height: 140px; /* Taller as in mockup */
+  background: #f3f4f6; /* Light gray background like mockup */
+  border: 1px solid #e5e7eb; /* Subtle border */
   border-radius: 6px;
   padding: 1rem;
   color: var(--text-primary);
   font-size: 1rem;
   resize: none;
   font-family: inherit;
+  box-sizing: border-box; /* IMPORTANT */
+}
+
+textarea::placeholder {
+  color: #9ca3af;
 }
 
 textarea:focus {
   outline: none;
   background: #ffffff;
-  border-color: var(--border-color);
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .button-container {
@@ -105,10 +128,10 @@ button {
   background: var(--accent);
   color: white;
   border: none;
-  padding: 0.625rem 2.5rem;
+  padding: 0.75rem 3rem; /* Wider padding like mockup */
   border-radius: 6px;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -130,132 +153,89 @@ button:disabled {
 }
 
 .sentence-block {
-  border: 1px solid var(--border-color);
+  border: 1px solid transparent; /* Colored borders handled below */
   border-radius: 6px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-}
-
-.topic-header {
-  padding: 0.25rem 0.75rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  width: fit-content;
-  border-radius: 0 0 6px 0; /* Or standard - mockup shows badge look */
-}
-
-/* Mockup Style: Top header bar colored by topic, or contained badge? 
-   Looking at image: The badge is inside the box, likely top left. 
-   Actually, the mockup shows a colored header strip OR the badge is the background of the top part.
-   " [Performance] " -> Colored background badge.
-   Let's recreate exact mockup: 
-   Box background is white/light tint. 
-   Badge is separate block at top.
-*/
-
-.sentence-block {
-  background: white;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  /* Left accent border not in mockup but looks nice, remove if strict */
-  /* Mockup has colored header background for the whole row? No, distinct blocks. */
+  text-align: left;
 }
 
 .topic-badge-container {
-  padding: 0.5rem 0.75rem 0;
+  padding: 0.75rem 1rem 0 1rem; /* Adjust spacing */
 }
 
 .topic-badge {
   display: inline-block;
-  padding: 0.25rem 0.75rem;
+  padding: 0.2rem 0.5rem;
   border-radius: 4px;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-weight: 700;
-  color: white; /* Only if dark badge */
+  color: white;
+  text-transform: capitalize; /* Ensure nice casing */
 }
 
 .sentence-text {
-  padding: 0.75rem;
+  padding: 0.5rem 1rem 1rem 1rem;
   font-size: 1rem;
-  color: var(--text-primary);
+  color: #1f2937;
+  line-height: 1.5;
 }
 
 /* Topic specific styles matching mockup */
-/* Billing: Yellow header/bg */
-/* Performance: Red header/bg */
-/* Other: Gray header/bg */
 
-.block-performance {
-  background-color: #fff1f2; /* Very light red */
-  border-color: #fecdd3;
-}
-.block-performance .topic-badge {
-  background-color: #e11d48;
-  color: white;
-}
-
+/* BILLING - Yellow */
 .block-billing {
-  background-color: #fffbeb; /* Very light yellow */
-  border-color: #fde68a;
+  background-color: var(--bg-billing);
+  border-color: var(--border-billing); /* Maybe stronger border? Mockup looks subtle */
 }
 .block-billing .topic-badge {
-  background-color: #d97706; /* Darker yellow/orange for text readability */
-  color: white;
+  background-color: var(--badge-billing);
 }
 
+/* PERFORMANCE - Red */
+.block-performance {
+  background-color: var(--bg-performance);
+  border-color: var(--border-performance);
+}
+.block-performance .topic-badge {
+  background-color: var(--badge-performance);
+}
+
+/* SUPPORT - Green */
 .block-support {
-  background-color: #ecfdf5;
-  border-color: #a7f3d0;
+  background-color: var(--bg-support);
+  border-color: var(--border-support);
 }
 .block-support .topic-badge {
-  background-color: #059669;
-  color: white;
+  background-color: var(--badge-support);
 }
 
+/* UX - Purple */
 .block-ux {
-  background-color: #f5f3ff;
-  border-color: #ddd6fe;
+  background-color: var(--bg-ux);
+  border-color: var(--border-ux);
 }
 .block-ux .topic-badge {
-  background-color: #7c3aed;
-  color: white;
+  background-color: var(--badge-ux);
 }
 
+/* ACCOUNT - Pink */
 .block-account {
-  background-color: #fdf2f8;
-  border-color: #fbcfe8;
+  background-color: var(--bg-account);
+  border-color: var(--border-account);
 }
 .block-account .topic-badge {
-  background-color: #db2777;
-  color: white;
+  background-color: var(--badge-account);
 }
 
+/* OTHER - Gray */
 .block-other {
-  background-color: #f8fafc;
-  border-color: #e2e8f0;
+  background-color: var(--bg-other);
+  border-color: var(--border-other);
 }
 .block-other .topic-badge {
-  background-color: #64748b;
-  color: white;
-}
-
-.error-msg {
-  color: var(--topic-performance);
-  text-align: center;
-  padding: 1.5rem;
-  background-color: #fef2f2;
-  border-radius: 6px;
-  border: 1px solid #fecdd3;
-}
-
-.error-msg p {
-  margin: 0 0 1rem 0;
-  font-weight: 500;
-}
-
-.error-msg button {
-  margin-top: 0.5rem;
+  background-color: var(--badge-other);
 }
 
 /* Loader Styles */
@@ -269,7 +249,7 @@ button:disabled {
 }
 
 .loader {
-  border: 3px solid var(--border-color);
+  border: 3px solid #e5e7eb;
   border-top-color: var(--accent);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
@@ -304,43 +284,29 @@ button:disabled {
   }
 }
 
-/* Empty State Styles */
-.empty-state {
+/* Empty/Error State Styles */
+.error-msg {
+  color: var(--badge-performance);
   text-align: center;
-  padding: 2rem;
-  color: var(--text-secondary);
+  padding: 1.5rem;
+  background-color: var(--bg-performance);
+  border-radius: 6px;
+  border: 1px solid var(--border-performance);
 }
 
-.empty-state-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-.empty-state-message {
+.error-msg p {
   margin: 0 0 1rem 0;
-  font-size: 1rem;
+  font-weight: 600;
 }
 
-.empty-state-action {
-  margin-top: 1rem;
-}
-
-/* Button Variants */
 .button-secondary {
-  background: var(--bg-card);
+  background: white;
   color: var(--text-primary);
   border: 1px solid var(--border-color);
+  padding: 0.5rem 1rem;
 }
 
 .button-secondary:hover:not(:disabled) {
-  background: var(--bg-primary);
-}
-
-.button-danger {
-  background: var(--topic-performance);
-}
-
-.button-danger:hover:not(:disabled) {
-  background: #dc2626;
+  background: #f9fafb;
 }
 
