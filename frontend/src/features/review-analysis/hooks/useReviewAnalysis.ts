@@ -29,7 +29,7 @@ export function useReviewAnalysis(): UseReviewAnalysisReturn {
   const [inputText, setInputText] = useState('');
   const [queryText, setQueryText] = useState('');
 
-  const { isLoading, isFetching, error, data, refetch } = useReviewQuery(queryText);
+  const { isLoading, isFetching, error, data } = useReviewQuery(queryText);
 
   // Consider it pending if loading (first time) or fetching (refetching/background)
   // BUT for UX we might only want to show big loader on initial load or manual trigger

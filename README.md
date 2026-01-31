@@ -46,6 +46,9 @@ A sophisticated full-stack application that analyzes customer reviews by breakin
 - ✅ **Custom hooks** for business logic separation
 - ✅ **Path aliases** (`@/`) for clean imports
 - ✅ **Responsive design** with modern CSS
+- ✅ **Visual Analytics** with Topic Legend and Summary
+- ✅ **Advanced Caching** with TanStack Query (debounced input, stale time)
+- ✅ **Color-coded topic badges** for instant visual feedback
 
 ### Backend
 - ✅ **Clean Architecture** (API → Services → Models)
@@ -56,6 +59,7 @@ A sophisticated full-stack application that analyzes customer reviews by breakin
 - ✅ **Configuration management** with environment variables
 - ✅ **Database-ready design** (no DB currently, but prepared)
 - ✅ **OpenAPI documentation** auto-generated
+- ✅ **In-memory Caching** for optimized repeated analysis
 
 ---
 
@@ -271,6 +275,23 @@ npm run dev
 ```
 
 **Frontend runs at**: `http://localhost:5173`
+
+273: **Frontend runs at**: `http://localhost:5173`
+
+---
+
+## 🧪 Testing
+
+### Backend Tests
+The backend includes unit tests for API endpoints and caching logic.
+
+```bash
+# Activate virtual environment
+source venv/bin/activate
+
+# Run tests with pytest
+pytest backend/tests/test_api.py -v
+```
 
 ---
 
