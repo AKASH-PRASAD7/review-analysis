@@ -11,6 +11,7 @@ For analyzing customer reviews using AI-powered topic classification. Built with
 
 ## 📋 Table of Contents
 
+- [Live Demo](#-live-demo)
 - [Overview](#-overview)
 - [Features](#-features)
 - [Architecture](#-architecture)
@@ -19,6 +20,16 @@ For analyzing customer reviews using AI-powered topic classification. Built with
 - [Getting Started](#-getting-started)
 - [API Documentation](#-api-documentation)
 - [Development](#-development)
+
+---
+
+## 🌐 Live Demo
+
+- **Frontend**: [Review Analysis Platform](https://akashprasad-review-analysis.hf.space/)
+- **Backend API**: [FastAPI Docs](https://akashprasad-review-analysis.hf.space/docs)
+- **Demo Video**: [Demo Video](https://www.loom.com/share/7ec4fcd2f4a646f8baf5c2220ea5657d)
+
+*Note: The demo runs on Hugging Face Spaces (CPU tier), so the initial analysis request might take a few seconds to warm up the model.*
 
 ---
 
@@ -423,3 +434,29 @@ black app/
 4. Register in `app/api/v1/api_router.py`
 
 ---
+
+## 💡 Key Assumptions
+
+During the development of this platform, the following design decisions and assumptions were made:
+
+1.  **Sentence-Level Granularity**: Reviews are split into sentences using simple regex (`.!?`) to provide granular topic tracking. While effective for most reviews, intricate punctuation might require a more robust NLP splitter (like spaCy).
+2.  **Single Topic per Sentence**: To keep the UI clean and actionable, we assume each sentence predominantly addresses one topic. Multi-topic sentences are classified based on the strongest signal.
+3.  **Hybrid Classification**: We prioritize **Keyword Matching** for speed and determinism (e.g., "refund" always = Billing). The **LLM** is used as a powerful fallback for context-heavy sentences (e.g., "I waited forever on hold").
+4.  **English Language**: The current model and keywords are optimized for English reviews.
+
+---
+
+## ⏳ If I had more time...
+
+If I were to continue developing this project for a production environment, here is what I would prioritize:
+
+1.  **Vector Database Integration**: 
+    - Instead of just classifying, I would store embeddings (using Pinecone or Qdrant) to allow **Semantic Search** (e.g., "Show me all reviews complaining about login issues").
+2.  **Advanced Caching with Redis**:
+    - Replace the in-memory Python dictionary with Redis to enable a distributed cache across multiple worker instances.
+3.  **Asynchronous Processing**:
+    - For bulk review uploads (CSV/Excel), I would implement a message queue (RabbitMQ/Celery) to process analysis in the background without blocking the API.
+4.  **User Authentication**:
+    - Add OAuth2/JWT support to allow users to save their analysis history and create custom classification topics.
+5.  **A/B Testing Framework**:
+    - Implement a way to compare different prompts or models (e.g., T5 vs. BERT) to strictly measure classification accuracy.
