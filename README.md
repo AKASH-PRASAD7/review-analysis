@@ -25,7 +25,7 @@ For analyzing customer reviews using AI-powered topic classification. Built with
 
 ## 🌐 Live Demo
 
-- **Frontend**: [Review Analysis Platform](https://akashprasad-review-analysis.hf.space/)
+- **Frontend**: [Review Analysis Platform](https://review-analysis-nine.vercel.app/)
 - **Backend API**: [FastAPI Docs](https://akashprasad-review-analysis.hf.space/docs)
 - **Demo Video**: [Demo Video](https://www.loom.com/share/7ec4fcd2f4a646f8baf5c2220ea5657d)
 
